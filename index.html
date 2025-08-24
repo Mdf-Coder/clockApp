@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/output.css">
+    <script type="module" src="./src/menu_script.js" defer></script>
+    <script id="script-live-clock" type="module" src="./src/liveClock_script.js" defer></script>
+    <script type="module" src="./src/stopWatch_script.js" defer></script>
+    <script type="module" src="./src/countdownTimer_script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+</head>
+<body class="bg-gray-800 font-poppins overflow-x-hidden grid place-items-center h-screen">
+
+<audio id="ringtone" class="hidden" src="src/audios/Retro-digital-alarm-clock-beep-sound-effect.mp3"></audio>
+
+<svg class="hidden">
+    <symbol>
+        <svg id="live-clock-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg>
+        <svg id="countdown-timer-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"/>
+        </svg>
+        <svg id="stop-watch-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z"/>
+        </svg>
+        <svg id="plus-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+        </svg>
+        <svg id="location-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <svg id="date-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"/>
+            <path fill-rule="evenodd"
+                  d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <svg id="delete-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+        </svg>
+        <svg id="close-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+        </svg>
+        <svg id="start-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <svg id="pause-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5"/>
+        </svg>
+        <svg id="reset-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z"
+                  clip-rule="evenodd"/>
+        </svg>
+        <svg id="notif-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/>
+        </svg>
+        <svg id="scroll-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"/>
+        </svg>
+        <svg id="flag-svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5"/>
+        </svg>
+    </symbol>
+</svg>
+
+<!-- Container -->
+<section class="w-9/10 sm:w-6/7 md:w-5/6 lg:w-2/3 2xl:w-1/2 mx-auto mt-10 p-4 bg-gray-700/70 rounded-xl">
+
+    <!--  Header: Select Menu  -->
+    <div class="w-full pb-2 sm:pb-4 border-b-2 border-dashed border-b-white/80">
+        <div class="flex-col flex sm:flex sm:flex-row gap-y-2 items-center justify-around text-lg sm:text-xl md:text-2xl">
+
+            <label for="live-clock"
+                   class="flex items-center justify-center gap-x-1 sm:gap-x-2 relative tracking-tight sm:tracking-wide p-1 sm:p-2 capitalize cursor-pointer text-white/50 has-checked:text-black w-max">
+                <input type="radio" id="live-clock" name="clock-menu" value="liveClock"
+                       class="checkbox-input appearance-none hidden peer/clock">
+                <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
+                    <use href="#live-clock-svg"></use>
+                </svg>
+                <span class="z-10">Live Clock</span>
+                <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/clock:scale-x-100"></span>
+            </label>
+
+            <label for="countdown-timer"
+                   class="flex items-center justify-center gap-x-1 sm:gap-x-2 relative tracking-tight sm:tracking-wide p-1 sm:p-2 capitalize cursor-pointer text-white/50 has-checked:text-black w-max">
+                <input type="radio" id="countdown-timer" name="clock-menu" value="countdownTimer"
+                       class="checkbox-input appearance-none hidden peer/timer">
+                <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
+                    <use href="#countdown-timer-svg"></use>
+                </svg>
+                <span class="z-10">Countdown Timer</span>
+                <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/timer:scale-x-100"></span>
+            </label>
+
+            <label for="stop-watch"
+                   class="flex items-center justify-center gap-x-1 sm:gap-x-2 relative tracking-tight sm:tracking-wide p-1 sm:p-2 capitalize cursor-pointer text-white/50 has-checked:text-black w-max">
+                <input type="radio" id="stop-watch" name="clock-menu" value="stopWatch"
+                       class="checkbox-input appearance-none hidden peer/timer">
+                <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
+                    <use href="#stop-watch-svg"></use>
+                </svg>
+                <span class="z-10">Stop Watch</span>
+                <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/timer:scale-x-100"></span>
+            </label>
+        </div>
+    </div>
+
+    <!--  Main  -->
+    <div id="app-container" class="w-full h-max grid relative mt-2 sm:mt-4 font-rubik">
+
+        <!--    Live Clock Section    -->
+        <div id="live-clock-section"
+             class="text-center app-popup space-y-8 sm:space-y-10 col-start-1 row-start-1 p-2 text-gray-300 transition duration-[400ms] transform inset-0 w-full rounded-xl bg-black/20">
+
+            <!--     Header Title       -->
+            <div class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-widest bg-clip-text bg-linear-90 from-purple-500 to-sky-500 text-transparent font-bold">
+                EarthClock
+            </div>
+
+            <!--      Show Live Time      -->
+            <div id="show-live-time"
+                 class="text-4xl sm:text-5xl lg:text-6xl flex items-center justify-center gap-x-1 sm:gap-x-2 text-rose-500 font-exo-2">
+                <span id="live-clock-hour" class="bg-black/30 p-1 sm:p-2 rounded-2xl w-[70px] sm:w-[90px]">00</span>
+                <span class="text-white text-2xl sm:text-3xl animate-pulse">:</span>
+                <span id="live-clock-minute" class="bg-black/30 p-1 sm:p-2 rounded-2xl w-[70px] sm:w-[90px]">00</span>
+                <span class="text-white text-2xl sm:text-3xl animate-pulse">:</span>
+                <span id="live-clock-second" class="bg-black/30 p-1 sm:p-2 rounded-2xl w-[70px] sm:w-[90px]">00</span>
+            </div>
+
+            <!--      Show Time Zone And Date      -->
+            <div class="flex items-center justify-center gap-x-5 sm:gap-x-8 md:gap-x-12 font-exo-2">
+                <span class="text-xl sm:text-2xl md:text-3xl text-sky-500 flex items-center justify-center gap-x-1 sm:gap-x-2">
+                    <span class="relative">
+                        <svg class="size-6 min-w-6 min-h-6 sm:size-8 sm:min-w-8 sm:min-h-8"><use
+                                href="#location-svg"></use></svg>
+                        <svg class="absolute inset-0 size-6 min-w-6 min-h-6 sm:size-8 sm:min-w-8 sm:min-h-8 animate-ping"><use
+                                href="#location-svg"></use></svg>
+                    </span>
+                    <span id="current-time-zone">Asia/Tehran</span>
+                </span>
+                <span class="text-sm sm:text-base md:text-lg xl:text-xl flex items-center justify-center gap-x-1.5 sm:gap-x-2.5 text-yellow-300/80">
+                    <svg class="size-6 min-w-6 min-h-6"><use href="#date-svg"></use></svg>
+                    <span id="current-timezone-date"></span>
+                </span>
+            </div>
+
+            <!--      Other Locations info      -->
+            <div id="other-locations-info"
+                 class="grid relative gap-y-1 sm:gap-y-2 max-h-[150px] sm:max-h-[275px] overflow-y-auto hide-scrollbar grid-cols-1 font-exo-2">
+
+            </div>
+
+            <!--      Set Another Location Svg Btn     -->
+            <div id="set-another-timezone-btn"
+                 class="cursor-pointer w-max mx-auto transition transform active:scale-90 text-sky-500 bg-black/40 p-2 sm:p-3 rounded-full">
+                <svg class="size-9 min-w-9 min-h-9 sm:size-10 sm:min-w-10 sm:min-h-10">
+                    <use href="#plus-svg"></use>
+                </svg>
+            </div>
+
+
+        </div>
+
+        <!--    Countdown Timer Section    -->
+        <div id="countdown-timer-section"
+             class="col-start-1 row-start-1 app-popup space-y-7 transition duration-[400ms] p-2 text-gray-300 w-full h-full rounded-xl bg-black/20 text-center">
+
+
+            <!--     Header Title       -->
+            <div class="header-text text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider md:tracking-widest bg-clip-text bg-linear-90 from-teal-500 to-lime-500  text-transparent font-bold">
+                TimeTracker
+            </div>
+
+
+            <div class="grid grid-cols-1 grid-rows-1">
+
+                <!--      Select Time Section     -->
+                <div id="countdown-config"
+                     class="col-start-1 row-start-1 space-y-5 sm:space-y-7 transition-all duration-300">
+                    <div class="flex items-center justify-center gap-x-2 sm:gap-x-3">
+                        <!--      Hour Countdown      -->
+                        <label class="text-lg sm:text-xl md:text-2xl">
+                            <input type="number" id="hour-input" min="0" max="23" placeholder="Hour"
+                                   class="text-center font-exo-2 w-20 h-14 sm:w-28 sm:h-16 md:w-32 md:h-16 p-1.5 rounded-2xl border-2 border-gray-300 outline-0 placeholder:gray-300 transition-all duration-300 placeholder:transition focus:placeholder:text-sky-500 focus:border-sky-500 focus:rounded-4xl">
+                        </label>
+
+                        <!--      Minute Countdown      -->
+                        <label class="text-lg sm:text-xl md:text-2xl">
+                            <input type="number" id="minute-input" min="0" max="59" placeholder="Minute"
+                                   class="text-center font-exo-2 w-20 h-14 sm:w-28 sm:h-16 md:w-32 md:h-16 p-1.5 rounded-2xl border-2 border-gray-300 outline-0 placeholder:gray-300 transition-all duration-300 placeholder:transition focus:placeholder:text-sky-500 focus:border-sky-500 focus:rounded-4xl">
+                        </label>
+
+                        <!--      Second Countdown      -->
+                        <label class="text-lg sm:text-xl md:text-2xl">
+                            <input type="number" id="second-input" min="0" max="59" placeholder="Second"
+                                   class="text-center font-exo-2 w-20 h-14 sm:w-28 sm:h-16 md:w-32 md:h-16 p-1.5 rounded-2xl border-2 border-gray-300 outline-0 placeholder:gray-300 transition-all duration-300 placeholder:transition focus:placeholder:text-sky-500 focus:border-sky-500 focus:rounded-4xl">
+                        </label>
+                    </div>
+
+                    <!--       Default Times        -->
+                    <div class="mx-5 grid grid-cols-2 md:grid-cols-3 justify-center-safe gap-1.5 text-sm sm:text-base sm:gap-2 *:px-2 *:py-2 sm:*:px-2.5 sm:*:py-3 *:rounded-xl *:bg-black/30 *:text-sky-500 *:cursor-pointer *:active:bg-sky-400/70 *:active:text-white transition*:">
+                        <span class="pre-made-times" data-time-value="15">00:00:15</span>
+                        <span class="pre-made-times" data-time-value="30">00:00:30</span>
+                        <span class="pre-made-times" data-time-value="60">00:01:00</span>
+                        <span class="pre-made-times" data-time-value="90">00:01:30</span>
+                        <span class="pre-made-times" data-time-value="120">00:02:00</span>
+                        <span class="pre-made-times" data-time-value="300">00:05:00</span>
+                    </div>
+
+                    <!--        Start Countdown Btn        -->
+                    <button id="start-countdown-btn" disabled
+                            class="mx-auto relative group rounded-full p-3 sm:p-4 start-btn-not-active bg-black/40 transition duration-150">
+                        <svg class="size-6 min-h-6 min-w-6 sm:size-8 sm:min-h-8 sm:min-w-8">
+                            <use href="#start-svg"></use>
+                        </svg>
+                        <span class="btn-active"></span>
+                    </button>
+                </div>
+
+                <!--      Counting Down Timer      -->
+                <div id="show-countdown-process"
+                     class="hide-modal col-start-1 row-start-1 space-y-8 transition-all duration-300">
+
+                    <!--        Countdown Process        -->
+                    <div>
+                        <div id="timer-div" class="grid grid-cols-1 grid-rows-1 justify-items-center items-center">
+                            <div class="col-start-1 row-start-1 size-64 sm:size-72 md:size-80 rounded-full border-[15px] sm:border-[17px] md:border-[20px] transition-all duration-500 wheel-shadow border-black/20"></div>
+                            <div class="col-start-1 row-start-1 size-64 sm:size-72 md:size-80 rounded-full border-[15px] sm:border-[17px] md:border-[20px] transition-all duration-500 border-(--mask-color) mask-conic-from-(--mask-process) mask-conic-to-(--mask-process)"></div>
+                            <div class="col-start-1 row-start-1 flex flex-col items-center justify-center gap-y-1.5">
+                                <span id="current-left-time" class="text-3xl sm:text-4xl md:text-5xl">00:01:30</span>
+                                <span id="countdown-set-time" class="text-lg sm:text-xl md:text-2xl text-gray-500">00:02:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--        Countdown Control Btn        -->
+                    <div class="flex items-center justify-center mx-auto gap-x-10 sm:gap-x-12 md:gap-x-20">
+                        <!-- Reset btn -->
+                        <div id="reset-countdown-btn"
+                             class="p-3 sm:p-4 rounded-full bg-black/30 cursor-pointer transition transform active:scale-90">
+                            <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8 text-rose-600">
+                                <use href="#reset-svg"></use>
+                            </svg>
+                        </div>
+
+                        <!-- Pause/Resume btn -->
+                        <div class="text-sky-500 grid grid-cols-1 grid-rows-1" id="pause-resume-btn"
+                             data-active-svg="pause">
+                            <div id="pause-timer-btn"
+                                 class="col-start-1 row-start-1 p-3 sm:p-4 rounded-full bg-black/30 cursor-pointer transition duration-300 transform active:scale-90 opacity-0">
+                                <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                    <use href="#start-svg"></use>
+                                </svg>
+                            </div>
+                            <div id="resume-timer-btn"
+                                 class="col-start-1 row-start-1 p-3 sm:p-4 rounded-full bg-black/30 cursor-pointer transition duration-300 transform active:scale-90">
+                                <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                    <use href="#pause-svg"></use>
+                                </svg>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--    Stop Watch Section    -->
+        <div id="stop-watch-section"
+             class="col-start-1 row-start-1 app-popup space-y-8 sm:space-y-10 transition duration-[400ms] p-2 text-gray-300 w-full h-full rounded-xl bg-black/20 text-center">
+
+
+            <!--     Header Title       -->
+            <div class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl tracking-wider md:tracking-widest bg-clip-text bg-linear-90 from-30% from-red-500 to-amber-500  text-transparent font-bold">
+                SnapTimer
+            </div>
+
+            <!--      Main Timer      -->
+            <div id="timer-holder" class="ms-auto transform translate-y-20 scale-125 transition duration-300 flex items-center justify-center gap-x-2.5 text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-widest font-exo-2 font-semibold">
+                <span id="stop-watch-timer">00:00:00</span>
+                <span id="milli-second" class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-sky-500/80 w-7 sm:w-10">00</span>
+            </div>
+
+            <!--      Main Records      -->
+            <div id="records" class="flex flex-col items-start transition-all duration-200 justify-start gap-y-1 w-7/8 sm:w-4/5 md:w-3/4 xl:w-2/3 mx-auto max-h-[115px] md:max-h-[145px] min-h-[115px] md:min-h-[145px] overflow-y-auto hide-scrollbar text-sm sm:text-base *:w-full *:flex *:items-center *:justify-between *:bg-black/20 *:rounded-xl *:p-1.5 *:sm:p-2">
+
+            </div>
+
+            <!--      Footer      -->
+            <div class="grid grid-cols-1 grid-rows-1 justify-items-center">
+
+                <!--        Not Started        -->
+                <div id="start-stop-watch" class="col-start-1 row-start-1 py-3 sm:py-4 px-5 sm:px-7 rounded-full text-sky-500 bg-black/30 cursor-pointer transition duration-300 transform active:scale-90">
+                    <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                        <use href="#start-svg"></use>
+                    </svg>
+                </div>
+
+
+                <!--        Started        -->
+                <div id="not-started-btns" class="hide-btn col-start-1 row-start-1 transition duration-300 flex items-center justify-center gap-x-14 sm:gap-x-18">
+                    <div id="flag-reset-btn" class="text-sky-500 grid grid-cols-1 grid-rows-1 transition transform active:scale-90" data-active-svg="flag">
+                        <div id="reset-svg-btn" class="col-start-1 row-start-1 transition duration-300 hide-btn p-3 sm:p-4 rounded-full bg-black/30 cursor-pointer">
+                            <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                <use href="#reset-svg"></use>
+                            </svg>
+                        </div>
+                        <div id="flag-svg-btn" class="col-start-1 row-start-1 transition duration-300 transform p-3 sm:p-4 rounded-full bg-black/30 cursor-pointer">
+                            <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                <use href="#flag-svg"></use>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div id="pause-resume-stopwatch" class="text-sky-500 grid grid-cols-1 grid-rows-1 transition transform active:scale-90" data-active-svg="pause">
+                        <div id="start-svg-btn" class="col-start-1 row-start-1 p-3 transition duration-300 hide-btn sm:p-4 rounded-full bg-black/30 cursor-pointer">
+                            <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                <use href="#start-svg"></use>
+                            </svg>
+                        </div>
+                        <div id="pause-svg-btn" class="col-start-1 row-start-1 p-3 transition duration-300 sm:p-4 rounded-full bg-black/30 cursor-pointer">
+                            <svg class="size-7 min-w-7 min-h-7 sm:size-8 sm:min-w-8 sm:min-h-8">
+                                <use href="#pause-svg"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<!-- Select Location Modal -->
+<div id="select-timezone-modal"
+     class="hide-modal absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition duration-200 space-y-2 sm:space-y-3 grid grid-cols-1 w-5/6 xl:w-2/3 rounded-xl bg-gray-500/60 p-2 sm:p-3 z-20">
+
+    <!--  Close Svg  -->
+    <div id="close-modal-btn" class="mx-auto text-white">
+        <svg class="size-6 min-w-6 min-h-6 sm:size-8 sm:min-w-8 sm:min-h-8 cursor-pointer">
+            <use href="#close-svg"></use>
+        </svg>
+    </div>
+
+    <!--  Header  -->
+    <div class="text-center text-white/80 text-lg sm:text-xl md:text-2xl tracking-widest font-rubik">Select Timezone
+    </div>
+
+    <!--  List of timezones  -->
+    <div id="time-zones"
+         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 rounded-xl relative overflow-y-auto max-h-[300px] sm:max-h-96 gap-1.5 costume-scrollbar *:flex *:rounded-xl *:p-2 *:bg-linear-270 *:from-sky-500/30 *:to-yellow-500/30 *:text-white/80 *:items-center *:justify-between *:cursor-pointer">
+
+    </div>
+
+    <!--  Footer  -->
+    <div class="mx-auto flex items-center justify-center font-exo-2 gap-x-1 sm:gap-x-2 p-1.5 sm:p-2 text-sm sm:text-base rounded-xl bg-rose-400/70 text-white">
+        <span>Scroll to see other locations</span>
+        <svg class="size-5 min-h-5 min-w-5">
+            <use href="#scroll-svg"></use>
+        </svg>
+    </div>
+
+
+</div>
+
+<!-- Countdown Timer Finished Notification -->
+<div id="countdown-timer-notification" class="absolute right-3 top-3 space-y-1.5 sm:space-y-2">
+
+</div>
+
+
+<!-- OverLay -->
+<div id="overlay" class="absolute inset-0 backdrop-brightness-75 backdrop-blur-xs z-10 hidden"></div>
+
+</body>
+</html>
