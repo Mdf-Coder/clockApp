@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Clock-App</title>
     <link rel="stylesheet" href="src/output.css">
     <script type="module" src="./src/menu_script.js" defer></script>
     <script id="script-live-clock" type="module" src="./src/liveClock_script.js" defer></script>
@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
 </head>
-<body class="bg-gray-800 font-poppins overflow-hidden grid place-items-center h-screen">
+<body class="bg-gray-800 font-poppins grid place-items-center h-screen overflow-hidden">
 
 <audio id="ringtone" class="hidden" src="src/audios/Retro-digital-alarm-clock-beep-sound-effect.mp3"></audio>
 
@@ -99,7 +99,7 @@
                 <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
                     <use href="#live-clock-svg"></use>
                 </svg>
-                <span class="z-10">Live Clock</span>
+                <span class="z-10">EarthClock</span>
                 <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/clock:scale-x-100"></span>
             </label>
 
@@ -110,7 +110,7 @@
                 <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
                     <use href="#countdown-timer-svg"></use>
                 </svg>
-                <span class="z-10">Countdown Timer</span>
+                <span class="z-10">TimeTracker</span>
                 <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/timer:scale-x-100"></span>
             </label>
 
@@ -121,7 +121,7 @@
                 <svg class="w-6 h-6 min-w-6 min-h-6 sm:w-8 sm:h-8 sm:min-w-8 sm:min-h-8 z-10">
                     <use href="#stop-watch-svg"></use>
                 </svg>
-                <span class="z-10">Stop Watch</span>
+                <span class="z-10">SnapTimer</span>
                 <span class="absolute transition duration-300 bottom-0 transform origin-center scale-x-0 inset-x-0 h-full bg-white/80 rounded-xl peer-checked/timer:scale-x-100"></span>
             </label>
         </div>
@@ -220,7 +220,7 @@
                     </div>
 
                     <!--       Default Times        -->
-                    <div class="mx-5 grid grid-cols-2 md:grid-cols-3 justify-center-safe gap-1.5 text-sm sm:text-base sm:gap-2 *:px-2 *:py-2 sm:*:px-2.5 sm:*:py-3 *:rounded-xl *:bg-black/30 *:text-sky-500 *:cursor-pointer *:active:bg-sky-400/70 *:active:text-white transition*:">
+                    <div id="pre-made-times-holder" class="mx-5 grid grid-cols-2 md:grid-cols-3 justify-center-safe gap-1.5 text-sm sm:text-base sm:gap-2 *:px-2 *:py-2 sm:*:px-2.5 sm:*:py-3 *:rounded-xl *:bg-black/30 *:text-sky-500 *:cursor-pointer *:active:bg-sky-400/70 *:active:text-white transition*:">
                         <span class="pre-made-times" data-time-value="15">00:00:15</span>
                         <span class="pre-made-times" data-time-value="30">00:00:30</span>
                         <span class="pre-made-times" data-time-value="60">00:01:00</span>

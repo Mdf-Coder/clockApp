@@ -31,7 +31,6 @@ function stopWatchInterval(hours, minutes, seconds, milliseconds) {
 
     // Stop Watch
     TimerInterval = setInterval(() => {
-        console.log('Interval')
         milliseconds += 10;
         if (milliseconds === 1000) {
             milliseconds = 0;

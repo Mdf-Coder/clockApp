@@ -102,15 +102,6 @@ html, body {
     }
 }
 
-@keyframes add-new-child {
-    from {
-        @apply opacity-0 scale-x-0 origin-left transform
-    }
-    to {
-        @apply opacity-100 scale-x-100 origin-left transform
-    }
-}
-
 
 @layer components {
 
@@ -145,11 +136,7 @@ html, body {
 
     /* Show App / Close App */
     .app-popup {
-        @apply translate-x-[50%] invisible opacity-0
-    }
-
-    .app-popout {
-        @apply -translate-x-[50%] invisible opacity-0
+        @apply translate-y-20 invisible opacity-0
     }
 
     /* Hide ScrollBar */
@@ -183,11 +170,6 @@ html, body {
     /* Hide Btn */
     .hide-btn {
         @apply opacity-0 invisible scale-0
-    }
-
-    /* Add New Child */
-    .animate-add-child {
-        animation: add-new-child 0.5s cubic-bezier(0.600, -0.280, 0.735, 0.045) 1 both;
     }
 
     /* Active Btn */

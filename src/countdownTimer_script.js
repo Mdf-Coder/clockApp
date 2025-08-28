@@ -12,6 +12,7 @@ function clearTimeInputs() {
 let countdownConfig = document.querySelector('#countdown-config')
 let showCountdownProcess = document.querySelector('#show-countdown-process')
 let startCountdownBtn = document.querySelector('#start-countdown-btn')
+let preMadeTimesHolder = document.querySelector('#pre-made-times-holder')
 
 // if click On start ...
 startCountdownBtn.addEventListener('click', () => {
@@ -22,6 +23,14 @@ startCountdownBtn.addEventListener('click', () => {
     // Set Precess Percent 100% Again
     processPercent = 100
     startCountdown(totalTimeInSecond)
+    // Add Recently Used Time To Pre-made times
+    preMadeTimesHolder.lastElementChild.remove()
+    let makeSpan = document.createElement('span')
+    makeSpan.setAttribute('data-time-value', String(totalTimeInSecond))
+    makeSpan.innerHTML = `${hourInput.value}:${minuteInput.value}:${secondInput.value}`
+    makeSpan.addEventListener('click', startTimerWithPreMadeBtn)
+    preMadeTimesHolder.appendChild(makeSpan)
+
 })
 ////////////////////////////////////////////////
 // Input Handlers
@@ -250,18 +259,20 @@ function countdownTimerHandler() {
 let preMadeTimes = document.querySelectorAll('.pre-made-times')
 // Set Event on each Element
 for (let pmTime of preMadeTimes) {
-    pmTime.addEventListener('click', (event) => {
-        // Start With 200ms Delay
-        setTimeout(() => {
-            // Get Needed data from event.target
-            let totalTime = event.target.getAttribute('data-time-value')
-            globalTimerFullValue = totalTime
-            // Set Precess Percent 100% Again
-            processPercent = 100
-            // Start Timer
-            startCountdown(totalTime)
-        }, 200)
-    })
+    pmTime.addEventListener('click', startTimerWithPreMadeBtn)
+}
+
+function startTimerWithPreMadeBtn(event) {
+    // Start With 200ms Delay
+    setTimeout(() => {
+        // Get Needed data from event.target
+        let totalTime = event.target.getAttribute('data-time-value')
+        globalTimerFullValue = totalTime
+        // Set Precess Percent 100% Again
+        processPercent = 100
+        // Start Timer
+        startCountdown(totalTime)
+    }, 200)
 }
 
 ////////////////////////////////////////////////////////
